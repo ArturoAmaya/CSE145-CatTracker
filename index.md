@@ -9,7 +9,6 @@ Existing pet trackers cost monthly amounts in addition to a high upfront cost fo
 
 Our goal was to use LoRa to communicate with the world and send our GPS data to some mapping software. We hoped that that would allow us to produce a compact and energy efficient system that could still provide real time location updates wherever Bru goes. 
 
-[comment]: <> (TODO: write more about the motivation for the project)
 
 ## Learn More
 

@@ -53,7 +53,7 @@ Helium has an existing integration with google sheets that we use. Basically we 
 
 ![image of the form](./assets/google_form.png)
 
-Helium will send a POST request with the data extracted from the packets sent by the feather. All we need is a function to decrypt that sequence of bytes. That's faily [easy](https://github.com/ArturoAmaya/CSE145-CatTracker/blob/main/decoder.js). We just take the first two bytes and disregard them (we know it's a GPS), then read the next three bytes and convert into a decimal number for each of the three desired values. 
+Helium will send a POST request with the data extracted from the packets sent by the feather. All we need is a function to decrypt that sequence of bytes. That's fairly [easy](https://github.com/ArturoAmaya/CSE145-CatTracker/blob/main/decoder.js). We just take the first two bytes and disregard them (we know it's a GPS), then read the next three bytes and convert into a decimal number for each of the three desired values. 
 
 ```javascript
 function Decoder(bytes, port) {

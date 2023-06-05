@@ -31,7 +31,7 @@ if (Serial1.available()){
 
 From there, we can query the TinyGPSPlus object for the decoded data:
 
-https://github.com/ArturoAmaya/CSE145-CatTracker/blob/abd613350608a4e0dabf400579464838d073723f/final_project.ino#LL206C1-L208C39
+[code](https://github.com/ArturoAmaya/CSE145-CatTracker/blob/abd613350608a4e0dabf400579464838d073723f/final_project.ino#LL206C1-L208C39)
 
 There are other useful values that can be extracted, such as HDOP (Horizontal Diultion of Precision, a proxy for the accuracy of the data), the number of satelites involved, the date and time in UTC format, and the heading, but we kept it simple and only got the core data - latitutde, longitude and altitude.
 

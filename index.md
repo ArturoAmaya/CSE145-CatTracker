@@ -12,6 +12,7 @@ Our goal was to use LoRa to communicate with the world and send our GPS data to 
 
 ## Learn More
 
+* Read a quick [how-to](howto.md)
 * Read about the [software](software.md)
 * Read about the [hardware](hardware.md)
 * Read about the [team](team.md)

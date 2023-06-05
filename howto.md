@@ -1,0 +1,2 @@
+# HowTo
+Here is a quick end-to-end guide to replicate what we did, using the software we used at the time. Note that any software may change in the intervening time, so this represents more a snapshot than a definitive guide.

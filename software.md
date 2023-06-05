@@ -31,13 +31,32 @@ if (Serial1.available()){
 
 From there, we can query the TinyGPSPlus object for the decoded data:
 
-[code](https://github.com/ArturoAmaya/CSE145-CatTracker/blob/abd613350608a4e0dabf400579464838d073723f/final_project.ino#LL206C1-L208C39)
+```c
+float lat = gps.location.lat();
+float lng = gps.location.lng();
+float alt = gps.altitude.meters();
+```
 
 There are other useful values that can be extracted, such as HDOP (Horizontal Diultion of Precision, a proxy for the accuracy of the data), the number of satelites involved, the date and time in UTC format, and the heading, but we kept it simple and only got the core data - latitutde, longitude and altitude.
 
 ## Feather to Helium
-We send data to the [Helium network](https://www.helium.com/), a LoRaWAN network based on its on crypto token, Helium. Basically, we pay a teeny tiny amount per byte. We paid about 50 cents to be able to send roughly 1 million bytes. We needed a standard encoding for our data, and settled on the [Cayenne Low Power Payload](https://www.thethingsindustries.com/docs/integrations/payload-formatters/cayenne/). Basically, we get 1 byte designating the channel (think of it as data packet 1, 2, 3), 1 byte specifying the type of data (i.e. is it current, voltage, gyro data, gps data, etc) and then the data. We can quickly add new data with this standard encoding 
+We send data to the [Helium network](https://www.helium.com/), a LoRaWAN network based on its on crypto token, Helium. Basically, we pay a teeny tiny amount per byte. We paid about 50 cents to be able to send roughly 1 million bytes. We needed a standard encoding for our data, and settled on the [Cayenne Low Power Payload](https://www.thethingsindustries.com/docs/integrations/payload-formatters/cayenne/). Basically, we get 1 byte designating the channel (think of it as data packet 1, 2, 3), 1 byte specifying the type of data (i.e. is it current, voltage, gyro data, gps data, etc) and then the data. If we want to expand, we can quickly add new data with this standard encoding. The data is simply sent as an integer in 2s complement. For latitude and longitude we multiply the float by 10,000 to turn it into an integer and we multiply the altitude by 100 to turn it into an integer. Each of the three values occupies three bytes.
 
+There is an arduino Cayene LPP library, so adding our data to an LPP buffer is as simple as:
+```c
+lpp.addGPS(1, lat, lng, alt);
+```
+Sending the data is handled by [code provided by Helium](https://docs.helium.com/use-the-network/devices/development/adafruit/adafruit-feather-m0-rfm95/adafruitio/). Don't forget to make a Helium account and follow the [quickstart guide](https://docs.helium.com/use-the-network/console/quickstart)
 ## Helium to Sheets to Tableau
+
+Helium has an existing integration with google sheets that we use. Basically we make a google form with the fields we want to populate in the sheets document:
+
+![testing image](image.png)
+
+Helium will send a POST request with the data extracted from the packets sent by the feather. All we need is a function to decrypt that sequence of bytes. That's faily [easy](https://github.com/ArturoAmaya/CSE145-CatTracker/blob/main/decoder.js). We just take the first two bytes and disregard them (we know it's a GPS), then read the next three bytes and convert into a decimal number for each of the three desired values. 
+
+```javascript
+https://github.com/ArturoAmaya/CSE145-CatTracker/blob/abd613350608a4e0dabf400579464838d073723f/decoder.js#LL1C1-L37C4
+```
 
 ## Tableau and Plotting

@@ -95,3 +95,6 @@ function Decoder(bytes, port) {
 ```
 
 ## Tableau and Plotting
+The plotting is done in Tableau. We can simply choose our google sheets as the source of data. If you put longitude in the columns section and latitude in the rows section Tableau infers that you're plotting a map coordinate and gets a map to plot it on. From there we can filter based on the date and time, or the altitude. Here is an example using density plotting to produce a heat map:
+
+![Density plotting](image.png)

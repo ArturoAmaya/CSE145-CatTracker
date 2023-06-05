@@ -51,12 +51,47 @@ Sending the data is handled by [code provided by Helium](https://docs.helium.com
 
 Helium has an existing integration with google sheets that we use. Basically we make a google form with the fields we want to populate in the sheets document:
 
-![testing image](image.png)
+![image of the form](./assets/google_form.png)
 
 Helium will send a POST request with the data extracted from the packets sent by the feather. All we need is a function to decrypt that sequence of bytes. That's faily [easy](https://github.com/ArturoAmaya/CSE145-CatTracker/blob/main/decoder.js). We just take the first two bytes and disregard them (we know it's a GPS), then read the next three bytes and convert into a decimal number for each of the three desired values. 
 
 ```javascript
-https://github.com/ArturoAmaya/CSE145-CatTracker/blob/abd613350608a4e0dabf400579464838d073723f/decoder.js#LL1C1-L37C4
+function Decoder(bytes, port) {
+    var decoded = {};
+    var firstBit;
+    // ignore bytes 0 and 1
+    // bytes 2, 3, 4 have the latitude
+    decoded.latitude = ((bytes[2] << 16) | (bytes[3] << 8) | (bytes[4]));
+    firstBit = getFirstBit(bytes[2]);
+    if (firstBit){
+      decoded.latitude = decoded.latitude - 2**24;
+    }
+    decoded.latitude = decoded.latitude/10000;
+    // bytes 5, 6, 7 have the latitude
+    decoded.longitude = ((bytes[5] << 16) | (bytes[6] << 8) | (bytes[7]));
+    firstBit = getFirstBit(bytes[5]);
+    if (firstBit){
+      decoded.longitude = decoded.longitude - 2**24;
+    }
+    decoded.longitude = decoded.longitude/10000; 
+    // bytes 8, 9 and 10 have the altitude
+    decoded.altitude = ((bytes[8] << 16) | (bytes[9] << 8) | (bytes[10]));
+    firstBit = getFirstBit(bytes[8]);
+    if (firstBit){
+      decoded.altitude = decoded.altitude - 2**24;
+    }
+    decoded.altitude = decoded.altitude/100;
+    var decodedPayload = {
+      "latitude": decoded.latitude,
+      "longitude": decoded.longitude,
+      "altitude": decoded.altitude
+    };
+  
+    return Serialize(decodedPayload)
+  }
+  function getFirstBit(byte) {
+    return (byte & 0b10000000) >> 7;
+  }
 ```
 
 ## Tableau and Plotting

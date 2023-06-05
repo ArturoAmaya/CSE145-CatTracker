@@ -16,3 +16,6 @@ We used a Beitian BN-180 GPS module. It's originally for flight controllers - it
 ## Battery
 
 A standard 3.7 1100 mAh LiPo battery. The leads were switched relative to what the feather wanted, but we just swapped them and everything works fine.
+
+## Connecting Everything
+[//]: <> (TODO: Hookup diagram)

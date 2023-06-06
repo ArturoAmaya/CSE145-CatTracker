@@ -29,6 +29,8 @@ The decoder we used is right [here](software.md#helium-to-sheets-to-tableau)
 
 ### Download Tableau
 
+Easy peasy, it's right [here](https://www.tableau.com/trial/tableau-software?utm_campaign_id=2017049&utm_campaign=Prospecting-PROD-ALL-ALL-ALL-ALL&utm_medium=Paid+Search&utm_source=Google+Search&utm_language=EN&utm_country=USCA&kw=%2Bdesktop%20%2Btableau&adgroup=CTX-Brand-Tableau+Desktop-B&adused=RESP&matchtype=b&placement=&d=7013y000000vYhH&nc=7013y0000029zDnAAI&cq_cmp=1695532765&cq_net=g&cq_plac=&gclid=Cj0KCQjwj_ajBhCqARIsAA37s0zeKkDS4LNHwYtPjcuhHWCUrcixtEWX6s8WEKH4dOi1Su9FAK6BtscaAoQMEALw_wcB&gclsrc=aw.ds)
+
 ### Sign in to Google Drive on Tableau, grab the sheet and drag and drop the latitude and longitude data into the right place.
 
 A short discussion is [here](software.md#tableau-and-plotting)

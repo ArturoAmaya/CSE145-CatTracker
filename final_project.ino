@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2015 Thomas Telkamp and Matthijs Kooijman
+ * Original Copyright (c) 2015 Thomas Telkamp and Matthijs Kooijman
  *
  * Permission is hereby granted, free of charge, to anyone
  * obtaining a copy of this document and accompanying files,
@@ -7,25 +7,9 @@
  * including, but not limited to, copying, modification and redistribution.
  * NO WARRANTY OF ANY KIND IS PROVIDED.
  *
- * This example sends a valid LoRaWAN packet with payload "Hello,
- * world!", using frequency and encryption settings matching those of
- * the The Things Network.
  *
- * This uses OTAA (Over-the-air activation), where where a DevEUI and
- * application key is configured, which are used in an over-the-air
- * activation procedure where a DevAddr and session keys are
- * assigned/generated for use with all further communication.
- *
- * Note: LoRaWAN per sub-band duty-cycle limitation is enforced (1% in
- * g1, 0.1% in g2), but not the TTN fair usage policy (which is probably
- * violated by this sketch when left running for longer)!
- * To use this sketch, first register your application and device with
- * the things network, to set or generate an AppEUI, DevEUI and AppKey.
- * Multiple devices can use the same AppEUI, but each device has its own
- * DevEUI and AppKey.
- *
- * Do not forget to define the radio type correctly in config.h.
- *
+ * This particular software is intended to send GPS data from an Adafruit Feather
+ * M0 to Helium. Modified by Arturo Amaya and Sean Lipps for CSE 145 at UCSD.
  *******************************************************************************/
 #include <lmic.h>
 #include <hal/hal.h>
@@ -33,19 +17,19 @@
 
 #include <TinyGPS++.h>
 
-#include <Adafruit_Sensor.h>
-#include <DHT.h>
-#include <DHT_U.h>
+// #include <Adafruit_Sensor.h>
+// #include <DHT.h>
+// #include <DHT_U.h>
 
 #include <CayenneLPP.h>
 
-#define DHTPIN 12
-#define DHTTYPE DHT22 // DHT 22 (AM2302)
+// #define DHTPIN 12
+// #define DHTTYPE DHT22 // DHT 22 (AM2302)
 
 static const uint32_t GPSBaud = 9600;
 
 TinyGPSPlus gps;
-DHT_Unified dht(DHTPIN, DHTTYPE);
+// DHT_Unified dht(DHTPIN, DHTTYPE);
 
 // Init CayenneLPP Payload
 CayenneLPP lpp(51);
@@ -154,37 +138,6 @@ void onEvent(ev_t ev)
     break;
   }
 }
-static void smartDelay(unsigned long ms)
-{
-  unsigned long start = millis();
-  do
-  {
-    while (Serial1.available())
-      gps.encode(Serial1.read());
-  } while (millis() - start < ms);
-}
-
-static void printFloat(float val, bool valid, int len, int prec)
-{
-  if (!valid)
-  {
-    while (len-- > 1)
-      Serial.print('*');
-    Serial.print(' ');
-  }
-  else
-  {
-    Serial.print(val, prec);
-    int vi = abs((int)val);
-    int flen = prec + (val < 0.0 ? 2 : 1); // . and -
-    flen += vi >= 1000 ? 4 : vi >= 100 ? 3
-                         : vi >= 10    ? 2
-                                       : 1;
-    for (int i = flen; i < len; ++i)
-      Serial.print(' ');
-  }
-  smartDelay(0);
-}
 
 void do_send(osjob_t *j)
 {
@@ -198,17 +151,22 @@ void do_send(osjob_t *j)
 
     // Clear Payload
     lpp.reset();
-
+    // read the latest GPS data
     if (Serial1.available())
     {
       gps.encode(Serial1.read());
     }
+    // acquire the three data points we want
     float lat = gps.location.lat();
     float lng = gps.location.lng();
     float alt = gps.altitude.meters();
+
+    // add into LPP
     lpp.addGPS(1, lat, lng, alt);
     // Prepare upstream data transmission at the next possible time.
     LMIC_setTxData2(1, lpp.getBuffer(), lpp.getSize(), 0);
+
+    // Debug printing
     Serial.print(lat, 6); // Serial.print(val, prec);
     Serial.print(",");
     Serial.print(lng, 6);
@@ -224,42 +182,10 @@ void do_send(osjob_t *j)
 void setup()
 {
   Serial.begin(9600);
+  // start the GPS UART connection
   Serial1.begin(GPSBaud);
   Serial.println(F("Starting"));
 
-  /*##ifdef VCC_ENABLE
-  // For Pinoccio Scout boards
-  pinMode(VCC_ENABLE, OUTPUT);
-  digitalWrite(VCC_ENABLE, HIGH);
-  delay(1000);
-  #endif*/
-
-  /*// Initialize DHT22.
-  dht.begin();
-  Serial.println(F("DHTxx Unified Sensor Example"));
-  // Print temperature sensor details.
-  sensor_t sensor;
-  dht.temperature().getSensor(&sensor);
-  Serial.println(F("------------------------------------"));
-  Serial.println(F("Temperature Sensor"));
-  Serial.print  (F("Sensor Type: ")); Serial.println(sensor.name);
-  Serial.print  (F("Driver Ver:  ")); Serial.println(sensor.version);
-  Serial.print  (F("Unique ID:   ")); Serial.println(sensor.sensor_id);
-  Serial.print  (F("Max Value:   ")); Serial.print(sensor.max_value); Serial.println(F("°C"));
-  Serial.print  (F("Min Value:   ")); Serial.print(sensor.min_value); Serial.println(F("°C"));
-  Serial.print  (F("Resolution:  ")); Serial.print(sensor.resolution); Serial.println(F("°C"));
-  Serial.println(F("------------------------------------"));
-  // Print humidity sensor details.
-  dht.humidity().getSensor(&sensor);
-  Serial.println(F("Humidity Sensor"));
-  Serial.print  (F("Sensor Type: ")); Serial.println(sensor.name);
-  Serial.print  (F("Driver Ver:  ")); Serial.println(sensor.version);
-  Serial.print  (F("Unique ID:   ")); Serial.println(sensor.sensor_id);
-  Serial.print  (F("Max Value:   ")); Serial.print(sensor.max_value); Serial.println(F("%"));
-  Serial.print  (F("Min Value:   ")); Serial.print(sensor.min_value); Serial.println(F("%"));
-  Serial.print  (F("Resolution:  ")); Serial.print(sensor.resolution); Serial.println(F("%"));
-  Serial.println(F("------------------------------------"));
-  */
   // LMIC init
   os_init();
   // Reset the MAC state. Session and pending data transfers will be discarded.
@@ -284,9 +210,5 @@ void setup()
 
 void loop()
 {
-  if (Serial1.available())
-  {
-    gps.encode(Serial1.read());
-  }
   os_runloop_once();
 }

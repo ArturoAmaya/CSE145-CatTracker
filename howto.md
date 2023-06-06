@@ -8,12 +8,12 @@ Details for the wiring are available at [the connections section](hardware.md#co
 * Install all the libraries:
 
 We've got:
-* Adafruit Unified Sensor 1.1.9
-* ArduinoJson 6.21.2
-* Cayenne LPP 1.3.0
-* DHT Sensor Library 1.4.4
-* IBM LMIC framework 1.5.0+arduino-2
-* TinyGPSPlus 1.0.3
+  * Adafruit Unified Sensor 1.1.9
+  * ArduinoJson 6.21.2
+  * Cayenne LPP 1.3.0
+  * DHT Sensor Library 1.4.4
+  * IBM LMIC framework 1.5.0+arduino-2
+  * TinyGPSPlus 1.0.3
 
 * Write the communication code
 

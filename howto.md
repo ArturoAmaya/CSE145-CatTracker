@@ -1,5 +1,5 @@
 # HowTo
-Here is a quick end-to-end guide to replicate what we did, using the software we used at the time. Note that any software may change in the intervening time, so this represents more a snapshot than a definitive guide. This is a very high-level overview. Some but not all technical details are available on the [software](software.md) or hardware[hardware](hardware.md) pages.
+Here is a quick end-to-end guide to replicate what we did, using the software we used at the time. Note that any software may change in the intervening time, so this represents more a snapshot than a definitive guide. This is a very high-level overview. Some but not all technical details are available on the [software](software.md) or [hardware](hardware.md) pages.
 
 * Wire everything up
 

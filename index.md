@@ -9,6 +9,8 @@ Existing pet trackers cost monthly amounts in addition to a high upfront cost fo
 
 Our goal was to use LoRa to communicate with the world and send our GPS data to some mapping software. We hoped that that would allow us to produce a compact and energy efficient system that could still provide real time location updates wherever Bru goes. 
 
+The most important piece of code is available [here](https://github.com/ArturoAmaya/CSE145-CatTracker/blob/main/final_project.ino)
+
 
 ## Learn More
 

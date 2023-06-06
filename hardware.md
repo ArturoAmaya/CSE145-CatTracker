@@ -18,4 +18,10 @@ We used a Beitian BN-180 GPS module. It's originally for flight controllers - it
 A standard 3.7 1100 mAh LiPo battery. The leads were switched relative to what the feather wanted, but we just swapped them and everything works fine.
 
 ## Connecting Everything
-[//]: <> (TODO: Hookup diagram)
+![Connections](assets/connections.png)
+
+* Circle in red is for the battery.
+* Deep Blue circle is for the data in from the GPS. Make sure to connect the GPS TX to the feather RX and the GPS RX to the feather TX.
+* The lime circles should be jumped together with a wire.
+* The light blue circle is where the antenna wire is soldered.
+* The pink circles are for the power to the GPS.

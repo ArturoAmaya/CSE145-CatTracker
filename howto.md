@@ -32,4 +32,4 @@ Easy peasy, it's right [here](https://www.tableau.com/trial/tableau-software?utm
 
 ### Sign in to Google Drive on Tableau, grab the sheet and drag and drop the latitude and longitude data into the right place.
 
-A short discussion is [here](software.md#tableau-and-plotting)
+A short discussion is [here](software.md#tableau-and-plotting). The tableau file itself is available [here](https://github.com/ArturoAmaya/CSE145-CatTracker/blob/main/CatTracker.twb)

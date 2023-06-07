@@ -32,4 +32,4 @@ Easy peasy, it's right [here](https://www.tableau.com/trial/tableau-software?utm
 
 ### Sign in to Google Drive on Tableau, grab the sheet and drag and drop the latitude and longitude data into the right place.
 
-A short discussion is [here](software.md#tableau-and-plotting). The tableau file itself is available [here](https://github.com/ArturoAmaya/CSE145-CatTracker/blob/main/CatTracker.twb)
+A short discussion is [here](software.md#tableau-and-plotting). The tableau file itself is available [here](https://github.com/ArturoAmaya/CSE145-CatTracker/blob/main/CatTracker.twb). After that, everything should work. It takes a while for the GPS and LoRa to connect to their respective destinations but once they get there data should start streaming from GPS to the feather to Helium to Google Sheets to Tableau! 

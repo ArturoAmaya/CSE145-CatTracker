@@ -25,3 +25,7 @@ A standard 3.7 1100 mAh LiPo battery. The leads were switched relative to what t
 * The lime circles should be jumped together with a wire.
 * The light blue circle is where the 3 inch antenna wire is soldered.
 * The pink circles are for the power to the GPS.
+
+## Case
+
+We 3D printed a case that was basically just a box. If one were to solder the wires onto the board instead of using pin connections, the case could probably be much smaller.
